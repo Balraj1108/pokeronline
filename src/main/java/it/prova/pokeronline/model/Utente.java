@@ -8,13 +8,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "utente")
@@ -48,6 +51,10 @@ public class Utente {
 	@ManyToMany
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ruolo_id", referencedColumnName = "ID"))
 	private Set<Ruolo> ruoli = new HashSet<>(0);
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "tavolo_id", nullable = false)
+	private Tavolo tavolo;
 	
 	
 

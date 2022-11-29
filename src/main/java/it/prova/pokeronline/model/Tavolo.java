@@ -1,7 +1,9 @@
 package it.prova.pokeronline.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -14,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "tavolo")
@@ -34,6 +37,7 @@ public class Tavolo {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tavolo")
 	private Set<Utente> giocatori = new HashSet<Utente>(0);
+	
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "utentecreazione_id", referencedColumnName = "id", nullable = false)
