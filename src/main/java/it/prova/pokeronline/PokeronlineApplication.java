@@ -1,6 +1,5 @@
 package it.prova.pokeronline;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;

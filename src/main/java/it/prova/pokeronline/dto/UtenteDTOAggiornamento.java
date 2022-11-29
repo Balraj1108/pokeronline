@@ -1,31 +1,22 @@
 package it.prova.pokeronline.dto;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import it.prova.pokeronline.model.Ruolo;
-import it.prova.pokeronline.model.StatoUtente;
 import it.prova.pokeronline.model.Utente;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class UtenteDTO {
+public class UtenteDTOAggiornamento {
 
 	private Long id;
 
 	@NotBlank(message = "{username.notblank}")
 	@Size(min = 3, max = 15, message = "Il valore inserito '${validatedValue}' deve essere lungo tra {min} e {max} caratteri")
 	private String username;
-
-	@NotBlank(message = "{password.notblank}")
-	@Size(min = 8, max = 15, message = "Il valore inserito deve essere lungo tra {min} e {max} caratteri")
-	private String password;
 
 	private String confermaPassword;
 
@@ -35,42 +26,35 @@ public class UtenteDTO {
 	@NotBlank(message = "{cognome.notblank}")
 	private String cognome;
 
-
-	private Date dateCreated;
-
-	private StatoUtente stato;
-
 	private Long[] ruoliIds;
 	
 	//private Set<Ruolo> ruoli = new HashSet<>(0);
 	
 	
 
-	public UtenteDTO() {
+	public UtenteDTOAggiornamento() {
 	}
 
-	public UtenteDTO(Long id, String username, String nome, String cognome, StatoUtente stato) {
+	public UtenteDTOAggiornamento(Long id, String username, String nome, String cognome) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.nome = nome;
 		this.cognome = cognome;
-		this.stato = stato;
 	}
 	
 	
 
-	public UtenteDTO(Long id,
+	public UtenteDTOAggiornamento(
 		  String username,
 			 String nome,
-			 String cognome, Date dateCreated, StatoUtente stato) {
+			 String cognome) {
 		super();
-		this.id = id;
+		
 		this.username = username;
 		this.nome = nome;
 		this.cognome = cognome;
-		this.dateCreated = dateCreated;
-		this.stato = stato;
+		
 	}
 
 	public Long getId() {
@@ -89,13 +73,6 @@ public class UtenteDTO {
 		this.username = username;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	public String getNome() {
 		return nome;
@@ -113,21 +90,6 @@ public class UtenteDTO {
 		this.cognome = cognome;
 	}
 
-	public Date getDateCreated() {
-		return dateCreated;
-	}
-
-	public void setDateCreated(Date dateCreated) {
-		this.dateCreated = dateCreated;
-	}
-
-	public StatoUtente getStato() {
-		return stato;
-	}
-
-	public void setStato(StatoUtente stato) {
-		this.stato = stato;
-	}
 
 	public String getConfermaPassword() {
 		return confermaPassword;
@@ -157,8 +119,7 @@ public class UtenteDTO {
 	}*/
 
 	public Utente buildUtenteModel(boolean includeIdRoles) {
-		Utente result = new Utente(this.id, this.username, this.password, this.nome, this.cognome,
-				this.dateCreated, this.stato);
+		Utente result = new Utente(this.id, this.username, this.nome, this.cognome);
 		
 		if (includeIdRoles && ruoliIds != null)
 			result.setRuoli(Arrays.asList(ruoliIds).stream().map(id -> new Ruolo(id)).collect(Collectors.toSet()));
@@ -168,9 +129,9 @@ public class UtenteDTO {
 
 	
 	// niente password...
-	public static UtenteDTO buildUtenteDTOFromModel(Utente utenteModel) {
-		UtenteDTO result = new UtenteDTO(utenteModel.getId(), utenteModel.getUsername(), utenteModel.getNome(),
-				utenteModel.getCognome(), utenteModel.getDateCreated(), utenteModel.getStato());
+	public static UtenteDTOAggiornamento buildUtenteDTOFromModel(Utente utenteModel) {
+		UtenteDTOAggiornamento result = new UtenteDTOAggiornamento(utenteModel.getId(), utenteModel.getUsername(), utenteModel.getNome(),
+				utenteModel.getCognome());
 
 		if (!utenteModel.getRuoli().isEmpty())
 			result.ruoliIds = utenteModel.getRuoli().stream().map(r -> r.getId()).collect(Collectors.toList())
@@ -182,24 +143,13 @@ public class UtenteDTO {
 	}
 	
 	
-	public static List<UtenteDTO> createUtenteDTOListFromModelList(List<Utente> modelListInput) {
+	public static List<UtenteDTOAggiornamento> createUtenteDTOListFromModelList(List<Utente> modelListInput) {
 		return modelListInput.stream().map(registaEntity -> {
-			UtenteDTO result = UtenteDTO.buildUtenteDTOFromModel(registaEntity);
+			UtenteDTOAggiornamento result = UtenteDTOAggiornamento.buildUtenteDTOFromModel(registaEntity);
 			
 			return result;
 		}).collect(Collectors.toList());
 	}
 	
-	/**
-	 * public static List<RegistaDTO> createRegistaDTOListFromModelList(List<Regista> modelListInput, boolean includeFilms) {
-		return modelListInput.stream().map(registaEntity -> {
-			RegistaDTO result = RegistaDTO.buildRegistaDTOFromModel(registaEntity,includeFilms);
-			if(includeFilms)
-				result.setFilms(FilmDTO.createFilmDTOSetFromModelSet(registaEntity.getFilms(), false));
-			return result;
-		}).collect(Collectors.toList());
-	}
-	 */
-	 
-
+	
 }
