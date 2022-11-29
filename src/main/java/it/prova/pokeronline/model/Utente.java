@@ -1,23 +1,19 @@
 package it.prova.pokeronline.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -40,6 +36,10 @@ public class Utente {
 	private String email;
 	@Column(name = "dateCreated")
 	private Date dateCreated;
+	@Column(name = "esperienzaaccumulata")
+	private Integer esperienzaAccumulata;
+	@Column(name = "creditoaccumulato")
+	private Integer creditoAccumulato;
 
 	// se non uso questa annotation viene gestito come un intero
 	@Enumerated(EnumType.STRING)
@@ -49,8 +49,7 @@ public class Utente {
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ruolo_id", referencedColumnName = "ID"))
 	private Set<Ruolo> ruoli = new HashSet<>(0);
 	
-	/*@OneToMany(fetch = FetchType.LAZY, mappedBy = "utente")
-	private List<Agenda> agende = new ArrayList<>();*/
+	
 
 	public Utente() {
 	}
@@ -66,6 +65,21 @@ public class Utente {
 		this.nome = nome;
 		this.cognome = cognome;
 		this.dateCreated = dateCreated;
+	}
+	
+	
+
+	public Utente(String username, String password, String nome, String cognome, String email, Date dateCreated,
+			Integer esperienzaAccumulata, Integer creditoAccumulato) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.email = email;
+		this.dateCreated = dateCreated;
+		this.esperienzaAccumulata = esperienzaAccumulata;
+		this.creditoAccumulato = creditoAccumulato;
 	}
 
 	public Utente(Long id, String username, String password, String nome, String cognome, String email,
@@ -163,6 +177,24 @@ public class Utente {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public Integer getEsperienzaAccumulata() {
+		return esperienzaAccumulata;
+	}
+
+	public void setEsperienzaAccumulata(Integer esperienzaAccumulata) {
+		this.esperienzaAccumulata = esperienzaAccumulata;
+	}
+
+	public Integer getCreditoAccumulato() {
+		return creditoAccumulato;
+	}
+
+	public void setCreditoAccumulato(Integer creditoAccumulato) {
+		this.creditoAccumulato = creditoAccumulato;
+	}
+	
+	
 
 	
 	
