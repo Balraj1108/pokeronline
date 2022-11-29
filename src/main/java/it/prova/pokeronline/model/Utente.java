@@ -35,8 +35,6 @@ public class Utente {
 	private String nome;
 	@Column(name = "cognome")
 	private String cognome;
-	@Column(name = "email")
-	private String email;
 	@Column(name = "dateCreated")
 	private Date dateCreated;
 	@Column(name = "esperienzaaccumulata")
@@ -76,24 +74,22 @@ public class Utente {
 	
 	
 
-	public Utente(String username, String password, String nome, String cognome, String email, Date dateCreated,
+	public Utente(String username, String password, String nome, String cognome, Date dateCreated,
 			Integer esperienzaAccumulata, Integer creditoAccumulato) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.nome = nome;
 		this.cognome = cognome;
-		this.email = email;
 		this.dateCreated = dateCreated;
 		this.esperienzaAccumulata = esperienzaAccumulata;
 		this.creditoAccumulato = creditoAccumulato;
 	}
 
-	public Utente(Long id, String username, String password, String nome, String cognome, String email,
+	public Utente(Long id, String username, String password, String nome, String cognome,
 			Date dateCreated, StatoUtente stato) {
 		this(username, password, nome, cognome, dateCreated);
 		this.id = id;
-		this.email = email;
 		this.stato = stato;
 	}
 
@@ -177,13 +173,6 @@ public class Utente {
 		return this.stato != null && this.stato.equals(StatoUtente.DISABILITATO);
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
 
 	public Integer getEsperienzaAccumulata() {
 		return esperienzaAccumulata;
