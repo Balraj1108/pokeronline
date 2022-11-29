@@ -49,6 +49,8 @@ public class PokeronlineApplication implements CommandLineRunner{
 		if (utenteServiceInstance.findByUsername("admin") == null) {
 			Utente admin = new Utente("admin", "admin", "Mario", "Rossi", new Date());
 			admin.getRuoli().add(ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", Ruolo.ROLE_ADMIN));
+			admin.setCreditoAccumulato(0);
+			admin.setEsperienzaAccumulata(0);
 			utenteServiceInstance.inserisciNuovo(admin);
 			// l'inserimento avviene come created ma io voglio attivarlo
 			utenteServiceInstance.changeUserAbilitation(admin.getId());
@@ -57,7 +59,9 @@ public class PokeronlineApplication implements CommandLineRunner{
 		if (utenteServiceInstance.findByUsername("user") == null) {
 			Utente classicUser = new Utente("user", "user", "Antonio", "Verdi", new Date());
 			classicUser.getRuoli()
-					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Classic User", Ruolo.ROLE_CLASSIC_PLAYER));
+					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Classic Player", Ruolo.ROLE_CLASSIC_PLAYER));
+			classicUser.setCreditoAccumulato(0);
+			classicUser.setEsperienzaAccumulata(0);
 			utenteServiceInstance.inserisciNuovo(classicUser);
 			// l'inserimento avviene come created ma io voglio attivarlo
 			utenteServiceInstance.changeUserAbilitation(classicUser.getId());
@@ -71,8 +75,11 @@ public class PokeronlineApplication implements CommandLineRunner{
 		if (utenteServiceInstance.findByUsername("user1") == null) {
 			Utente classicUser1 = new Utente("user1", "user1", "Antonioo", "Verdii", new Date());
 			classicUser1.getRuoli()
-					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Classic User", Ruolo.ROLE_SPECIAL_PLAYER));
+					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Special Player", Ruolo.ROLE_SPECIAL_PLAYER));
+			classicUser1.setCreditoAccumulato(0);
+			classicUser1.setEsperienzaAccumulata(0);
 			utenteServiceInstance.inserisciNuovo(classicUser1);
+			
 			// l'inserimento avviene come created ma io voglio attivarlo
 			utenteServiceInstance.changeUserAbilitation(classicUser1.getId());
 		}
@@ -80,8 +87,11 @@ public class PokeronlineApplication implements CommandLineRunner{
 		if (utenteServiceInstance.findByUsername("user2") == null) {
 			Utente classicUser2 = new Utente("user2", "user2", "Antoniooo", "Verdiii", new Date());
 			classicUser2.getRuoli()
-					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Classic User", Ruolo.ROLE_SPECIAL_PLAYER));
+					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Special Player", Ruolo.ROLE_SPECIAL_PLAYER));
+			classicUser2.setCreditoAccumulato(0);
+			classicUser2.setEsperienzaAccumulata(0);
 			utenteServiceInstance.inserisciNuovo(classicUser2);
+			
 			// l'inserimento avviene come created ma io voglio attivarlo
 			utenteServiceInstance.changeUserAbilitation(classicUser2.getId());
 		}
