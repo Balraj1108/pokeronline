@@ -22,7 +22,7 @@ public class TavoloServiceImpl implements TavoloService {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		System.out.println(username);
 		if (eager)
-			return (List<Tavolo>) repository.findAllAgendaEager();
+			return (List<Tavolo>) repository.findAllTavoloEager();
 
 		return (List<Tavolo>) repository.findAll();
 	}
@@ -50,6 +50,13 @@ public class TavoloServiceImpl implements TavoloService {
 		repository.findById(idToRemove)
 				.orElseThrow(() -> new TavoloNotFoundException("Tavolo not found con id: " + idToRemove));
 		repository.deleteById(idToRemove);
+	}
+
+	@Override
+	public List<Tavolo> FindByUsername() {
+		String usernameInSessione = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		return repository.FindByUsername(usernameInSessione);
 	}
 	
 }

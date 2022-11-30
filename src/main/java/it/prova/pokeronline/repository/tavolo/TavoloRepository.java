@@ -16,8 +16,13 @@ public interface TavoloRepository extends CrudRepository<Tavolo, Long> {
 	
 	//List<Agenda> findByTitoloAndGenere(String titolo, String genere);
 	
+	
+	@Query("select t from Tavolo t join fetch t.utenteCreazione tu where tu.username = ?1")
+	List<Tavolo> FindByUsername(String username);
+	
+	
 	@Query("select t from Tavolo t join fetch t.utenteCreazione")
-	List<Tavolo> findAllAgendaEager();
+	List<Tavolo> findAllTavoloEager();
 	 
 	
 }
