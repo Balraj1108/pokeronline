@@ -2,6 +2,7 @@ package it.prova.pokeronline.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -78,12 +79,65 @@ public class TavoloServiceImpl implements TavoloService {
 	}
 
 	@Override
+	@Transactional
 	public Tavolo findLastGame() {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Utente utenteLoggato = utenteService.findByUsername(username);
 		Long idUtente = utenteLoggato.getId();
+		Tavolo tavoloACuiSto = repository.findByGiocatoriId(idUtente);
+		System.out.println(tavoloACuiSto.getGiocatori().size());
 		
-		return repository.findLastGame(idUtente);
+		return repository.findByGiocatoriId(idUtente);
+		
+	}
+
+	@Override
+	@Transactional
+	public void exitGame() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Utente utenteLoggato = utenteService.findByUsername(username);
+		Long idUtente = utenteLoggato.getId();
+		
+		Tavolo tavoloACuiSto = repository.findByGiocatoriId(idUtente);
+		Long idTavolo = tavoloACuiSto.getId();
+		Tavolo tavolo = repository.findSingleTavoloEager(idTavolo);
+		
+		
+		tavolo.getGiocatori().remove(utenteLoggato);
+		
+		repository.save(tavolo);
+		
+
+		
+		
+		
+	}
+
+	@Override
+	@Transactional
+	public Tavolo addGiocatoreTavolo(Long id) {
+		
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Utente utenteLoggato = utenteService.findByUsername(username);
+		//Set<Utente> giocatoriDaAggiungere = new HashSet<>();
+		//giocatoriDaAggiungere.add(utenteLoggato);
+		
+		
+		Tavolo tavoloInInput  = repository.findSingleTavoloEager(id);
+		tavoloInInput.getGiocatori().add(utenteLoggato);
+		//tavoloService.aggiorna(tavoloInInput);
+		
+		return repository.save(tavoloInInput);
+	}
+
+	@Override
+	@Transactional
+	public void eliminaRecord() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Utente utenteLoggato = utenteService.findByUsername(username);
+		Long idDa = utenteLoggato.getId();
+		
+		//repository.eliminaRecord(idDa);
 	}
 	
 }

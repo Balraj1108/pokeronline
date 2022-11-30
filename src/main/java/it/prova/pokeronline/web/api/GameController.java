@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.prova.pokeronline.dto.TavoloDTO;
@@ -55,7 +57,7 @@ public class GameController {
 		
 		
 		
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		/*String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Utente utenteLoggato = utenteService.findByUsername(username);
 		//Set<Utente> giocatoriDaAggiungere = new HashSet<>();
 		//giocatoriDaAggiungere.add(utenteLoggato);
@@ -65,20 +67,49 @@ public class GameController {
 		Set<Utente> giocatoriDaAggiungere = tavoloInInput.getGiocatori();
 		giocatoriDaAggiungere.add(utenteLoggato);
 		tavoloInInput.setGiocatori(giocatoriDaAggiungere);
-		tavoloService.aggiorna(tavoloInInput);
+		tavoloService.aggiorna(tavoloInInput);*/
 		
 		
-		return TavoloDTO.buildTavoloDTOFromModel(tavoloInInput, true);
+		return TavoloDTO.buildTavoloDTOFromModel(tavoloService.addGiocatoreTavolo(id), true);
 	}
 	
 	@GetMapping("/lastGame")
-		public TavoloDTO ritornaUltimoTavolo() {
+	public TavoloDTO ritornaUltimoTavolo() {
 		
 		if (tavoloService.findLastGame() == null) {
 			throw new TavoloNotFoundException(" Non stai giocando a nessun tavolo");
 		}
 		return TavoloDTO.buildTavoloDTOFromModel(tavoloService.findLastGame(), true);
 	}
+	
+	@GetMapping("/exitGame")
+	@ResponseStatus(HttpStatus.OK)
+	public void abbandondaTavoloACuiStavoGiocando() {
+	
+		if (tavoloService.findLastGame() == null) {
+			throw new TavoloNotFoundException(" Non stai giocando a nessun tavolo");
+		}
+	
+		tavoloService.exitGame();
+		
+		
+	}
+	
+	@GetMapping("/exitGameNuovo")
+	@ResponseStatus(HttpStatus.OK)
+	public void abbandondaTavoloACuiStavoGiocao() {
+	
+		if (tavoloService.findLastGame() == null) {
+			throw new TavoloNotFoundException(" Non stai giocando a nessun tavolo");
+		}
+	
+		tavoloService.eliminaRecord();
+		
+		
+	}
+
+	
+	
 	
 	
 	

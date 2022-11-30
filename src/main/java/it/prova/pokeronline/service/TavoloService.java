@@ -24,5 +24,11 @@ public interface TavoloService {
 	
 	Tavolo findLastGame();
 	
+	void exitGame();
+	
+	Tavolo addGiocatoreTavolo(Long id);
+	
+	void eliminaRecord();
+	
 	
 }
