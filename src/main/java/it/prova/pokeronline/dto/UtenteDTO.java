@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -34,6 +35,10 @@ public class UtenteDTO {
 
 	@NotBlank(message = "{cognome.notblank}")
 	private String cognome;
+	
+	private Integer esperienzaAccumulata;
+	
+	private Integer creditoAccumulato;
 
 
 	private Date dateCreated;
@@ -69,6 +74,24 @@ public class UtenteDTO {
 		this.username = username;
 		this.nome = nome;
 		this.cognome = cognome;
+		this.dateCreated = dateCreated;
+		this.stato = stato;
+	}
+
+	
+	
+	public UtenteDTO(Long id,
+			 String username,
+			 String nome,
+			 String cognome, Integer esperienzaAccumulata,
+			Integer creditoAccumulato, Date dateCreated, StatoUtente stato) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.esperienzaAccumulata = esperienzaAccumulata;
+		this.creditoAccumulato = creditoAccumulato;
 		this.dateCreated = dateCreated;
 		this.stato = stato;
 	}
@@ -147,6 +170,8 @@ public class UtenteDTO {
 	}
 	
 	
+	
+	
 	/*
 	public Set<Ruolo> getRuoli() {
 		return ruoli;
@@ -156,9 +181,26 @@ public class UtenteDTO {
 		this.ruoli = ruoli;
 	}*/
 
+	public Integer getEsperienzaAccumulata() {
+		return esperienzaAccumulata;
+	}
+
+	public void setEsperienzaAccumulata(Integer esperienzaAccumulata) {
+		this.esperienzaAccumulata = esperienzaAccumulata;
+	}
+
+	public Integer getCreditoAccumulato() {
+		return creditoAccumulato;
+	}
+
+	public void setCreditoAccumulato(Integer creditoAccumulato) {
+		this.creditoAccumulato = creditoAccumulato;
+	}
+
 	public Utente buildUtenteModel(boolean includeIdRoles) {
 		Utente result = new Utente(this.id, this.username, this.password, this.nome, this.cognome,
-				this.dateCreated, this.stato);
+				this.dateCreated, this.creditoAccumulato,
+				this.esperienzaAccumulata, this.stato);
 		
 		if (includeIdRoles && ruoliIds != null)
 			result.setRuoli(Arrays.asList(ruoliIds).stream().map(id -> new Ruolo(id)).collect(Collectors.toSet()));
@@ -170,7 +212,8 @@ public class UtenteDTO {
 	// niente password...
 	public static UtenteDTO buildUtenteDTOFromModel(Utente utenteModel) {
 		UtenteDTO result = new UtenteDTO(utenteModel.getId(), utenteModel.getUsername(), utenteModel.getNome(),
-				utenteModel.getCognome(), utenteModel.getDateCreated(), utenteModel.getStato());
+				utenteModel.getCognome(), utenteModel.getEsperienzaAccumulata(),utenteModel.getCreditoAccumulato(),
+				utenteModel.getDateCreated(), utenteModel.getStato());
 
 		if (!utenteModel.getRuoli().isEmpty())
 			result.ruoliIds = utenteModel.getRuoli().stream().map(r -> r.getId()).collect(Collectors.toList())

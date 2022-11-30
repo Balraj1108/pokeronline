@@ -20,5 +20,7 @@ public interface TavoloService {
 	
 	List<Tavolo> FindByUsername();
 	
+	List<Tavolo> findByEsperienzaMinimaLessThan();
+	
 	
 }

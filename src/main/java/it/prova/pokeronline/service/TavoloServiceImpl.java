@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.pokeronline.dto.UtenteDTO;
 import it.prova.pokeronline.model.Tavolo;
+import it.prova.pokeronline.model.Utente;
 import it.prova.pokeronline.repository.tavolo.TavoloRepository;
 import it.prova.pokeronline.web.api.exception.TavoloNotFoundException;
 
@@ -65,6 +66,15 @@ public class TavoloServiceImpl implements TavoloService {
 		String usernameInSessione = SecurityContextHolder.getContext().getAuthentication().getName();
 		
 		return repository.FindByUsername(usernameInSessione);
+	}
+
+	@Override
+	public List<Tavolo> findByEsperienzaMinimaLessThan() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Utente utenteLoggato = utenteService.findByUsername(username);
+		Integer esperienzaUtente = utenteLoggato.getEsperienzaAccumulata();
+		
+		return repository.findByEsperienzaMinimaLessThan(esperienzaUtente);
 	}
 	
 }

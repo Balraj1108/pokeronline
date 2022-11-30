@@ -48,8 +48,8 @@ public class PokeronlineApplication implements CommandLineRunner{
 		if (utenteServiceInstance.findByUsername("admin") == null) {
 			Utente admin = new Utente("admin", "admin", "Mario", "Rossi", new Date());
 			admin.getRuoli().add(ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", Ruolo.ROLE_ADMIN));
-			admin.setCreditoAccumulato(0);
-			admin.setEsperienzaAccumulata(0);
+			admin.setCreditoAccumulato(10000);
+			admin.setEsperienzaAccumulata(1000);
 			utenteServiceInstance.inserisciNuovo(admin);
 			// l'inserimento avviene come created ma io voglio attivarlo
 			utenteServiceInstance.changeUserAbilitation(admin.getId());
@@ -60,7 +60,7 @@ public class PokeronlineApplication implements CommandLineRunner{
 			classicUser.getRuoli()
 					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Classic Player", Ruolo.ROLE_CLASSIC_PLAYER));
 			classicUser.setCreditoAccumulato(0);
-			classicUser.setEsperienzaAccumulata(0);
+			classicUser.setEsperienzaAccumulata(100);
 			utenteServiceInstance.inserisciNuovo(classicUser);
 			// l'inserimento avviene come created ma io voglio attivarlo
 			utenteServiceInstance.changeUserAbilitation(classicUser.getId());
@@ -76,7 +76,7 @@ public class PokeronlineApplication implements CommandLineRunner{
 			classicUser1.getRuoli()
 					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Special Player", Ruolo.ROLE_SPECIAL_PLAYER));
 			classicUser1.setCreditoAccumulato(0);
-			classicUser1.setEsperienzaAccumulata(0);
+			classicUser1.setEsperienzaAccumulata(100);
 			utenteServiceInstance.inserisciNuovo(classicUser1);
 			
 			// l'inserimento avviene come created ma io voglio attivarlo
@@ -88,7 +88,7 @@ public class PokeronlineApplication implements CommandLineRunner{
 			classicUser2.getRuoli()
 					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Special Player", Ruolo.ROLE_SPECIAL_PLAYER));
 			classicUser2.setCreditoAccumulato(0);
-			classicUser2.setEsperienzaAccumulata(0);
+			classicUser2.setEsperienzaAccumulata(100);
 			utenteServiceInstance.inserisciNuovo(classicUser2);
 			
 			// l'inserimento avviene come created ma io voglio attivarlo

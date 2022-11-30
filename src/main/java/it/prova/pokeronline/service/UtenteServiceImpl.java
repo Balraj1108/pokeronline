@@ -52,8 +52,8 @@ public class UtenteServiceImpl implements UtenteService {
 		utenteInstance.setStato(StatoUtente.CREATO);
 		utenteInstance.setPassword(passwordEncoder.encode(utenteInstance.getPassword()));
 		utenteInstance.setDateCreated(new Date());
-		utenteInstance.setCreditoAccumulato(0);
-		utenteInstance.setEsperienzaAccumulata(0);
+		utenteInstance.setCreditoAccumulato(utenteInstance.getCreditoAccumulato());
+		utenteInstance.setEsperienzaAccumulata(utenteInstance.getEsperienzaAccumulata());
 		return repository.save(utenteInstance);
 	}
 
@@ -98,5 +98,7 @@ public class UtenteServiceImpl implements UtenteService {
 	public Utente findByUsername(String username) {
 		return repository.findByUsername(username).orElse(null);
 	}
+	
+	
 
 }
