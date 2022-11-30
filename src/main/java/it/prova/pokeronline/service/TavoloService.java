@@ -22,5 +22,7 @@ public interface TavoloService {
 	
 	List<Tavolo> findByEsperienzaMinimaLessThan();
 	
+	Tavolo findLastGame();
+	
 	
 }

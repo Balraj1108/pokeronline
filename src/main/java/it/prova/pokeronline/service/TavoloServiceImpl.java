@@ -76,5 +76,14 @@ public class TavoloServiceImpl implements TavoloService {
 		
 		return repository.findByEsperienzaMinimaLessThan(esperienzaUtente);
 	}
+
+	@Override
+	public Tavolo findLastGame() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Utente utenteLoggato = utenteService.findByUsername(username);
+		Long idUtente = utenteLoggato.getId();
+		
+		return repository.findLastGame(idUtente);
+	}
 	
 }

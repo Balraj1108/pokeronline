@@ -50,9 +50,7 @@ public class Utente {
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ruolo_id", referencedColumnName = "ID"))
 	private Set<Ruolo> ruoli = new HashSet<>(0);
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "tavolo_id")
-	private Tavolo tavolo;
+	
 	
 	
 

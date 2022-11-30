@@ -1,6 +1,8 @@
 package it.prova.pokeronline.web.api;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.prova.pokeronline.dto.TavoloDTO;
 import it.prova.pokeronline.dto.UtenteDTO;
+import it.prova.pokeronline.model.Tavolo;
 import it.prova.pokeronline.model.Utente;
 import it.prova.pokeronline.service.TavoloService;
 import it.prova.pokeronline.service.UtenteService;
+import it.prova.pokeronline.web.api.exception.TavoloNotFoundException;
 
 @RestController
 @RequestMapping("api/game")
@@ -45,6 +49,37 @@ public class GameController {
 		
 		return TavoloDTO.createTavoloDTOFromModelList(tavoloService.findByEsperienzaMinimaLessThan(), true);
 	}
+	
+	@GetMapping("/tavolo{id}")
+	public TavoloDTO inserireGiocatoreInTavolo(@PathVariable(value = "id", required = true) Long id) {
+		
+		
+		
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Utente utenteLoggato = utenteService.findByUsername(username);
+		//Set<Utente> giocatoriDaAggiungere = new HashSet<>();
+		//giocatoriDaAggiungere.add(utenteLoggato);
+		
+		
+		Tavolo tavoloInInput  = tavoloService.caricaSingoloElementoEager(id);
+		Set<Utente> giocatoriDaAggiungere = tavoloInInput.getGiocatori();
+		giocatoriDaAggiungere.add(utenteLoggato);
+		tavoloInInput.setGiocatori(giocatoriDaAggiungere);
+		tavoloService.aggiorna(tavoloInInput);
+		
+		
+		return TavoloDTO.buildTavoloDTOFromModel(tavoloInInput, true);
+	}
+	
+	@GetMapping("/lastGame")
+		public TavoloDTO ritornaUltimoTavolo() {
+		
+		if (tavoloService.findLastGame() == null) {
+			throw new TavoloNotFoundException(" Non stai giocando a nessun tavolo");
+		}
+		return TavoloDTO.buildTavoloDTOFromModel(tavoloService.findLastGame(), true);
+	}
+	
 	
 	
 }

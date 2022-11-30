@@ -52,6 +52,7 @@ public class UtenteController {
 		return UtenteDTO.buildUtenteDTOFromModel(utenteService.caricaSingoloUtenteConRuoli(id));
 	}
 	
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public UtenteDTO createNewUtente(@Valid @RequestBody UtenteDTO utenteInput) {
