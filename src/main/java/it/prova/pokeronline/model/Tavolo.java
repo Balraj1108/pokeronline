@@ -47,6 +47,8 @@ public class Tavolo {
 	public Tavolo() {
 		super();
 	}
+	
+	
 
 	public Tavolo(Long id, Integer esperienzaMinima, Integer cifraMinima, String denominazione, LocalDateTime dataCreazione,
 			Set<Utente> giocatori, Utente utenteCreazione) {
