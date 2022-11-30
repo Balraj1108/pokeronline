@@ -57,9 +57,7 @@ public class TavoloController {
 			if (agendaInput.getId() != null)
 				throw new IdNotNullForInsertException("Non è ammesso fornire un id per la creazione");
 
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
 			
-			agendaInput.setUtenteCreazione(UtenteDTO.buildUtenteDTOFromModel(utenteService.findByUsername(username)));
 			Tavolo agendaIns = tavoloService.inserisciNuovo(agendaInput.buildTavoloModel());
 			
 			
